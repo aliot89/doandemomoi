@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>DO AN BAN TEST</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            background-color: rgb(255, 255, 255);
+        }
+
+        body>#datagrid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .header {
+            width: 80%;
+            background: aliceblue;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .content {
+            text-indent: 60px;
+            width: 80%;
+            height: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            word-spacing: 5px;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-top: 10px;
+            text-align: justify;
+            -webkit-user-select: none;
+            /*Safari*/
+            -moz-user-select: none;
+            /*Firefox*/
+            -ms-user-select: none;
+            /*IE*/
+            user-select: none;
+        }
+
+        .content>p {
+            vertical-align: middle !important;
+        }
+
+        .member {
+            background-color: #ffffff;
+            border-radius: 4px;
+            box-shadow: #000000 0px 2px 1px -1px;
+            color: #1c1e21;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            border: 0.1px solid rgba(255, 223, 223, 0.5);
+        }
+
+        .member>div>img {
+            width: 27%;
+            height: 200px;
+            border-radius: 60%;
+        }
+
+        select {
+            margin-left: 10% !important;
+        }
+
+        .nav-bar {
+            width: 80%;
+            height: 30px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .nav-bar>ul {
+            margin-bottom: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: #1565c0;
+        }
+
+        .nav-bar>ul>li {
+            position: relative;
+            float: left;
+            list-style: none;
+            padding: 0px 5px;
+            font-size: 15px !important;
+            line-height: 30px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ddd !important
+        }
+
+
+
+
+        th {
+            width: 100px;
+            border-bottom: 3px solid #1565c0 !important;
+            text-align: left;
+            padding: 5px;
+        }
+
+
+
+        img {
+            display: block;
+            width: 100%;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .container {
+            float: left;
+            display: flex;
+            width: 100%;
+        }
+
+        .panel.datagrid.panel-htop.easyui-fluid {
+            margin: auto;
+        }
+
+
+        .footer {
+            margin-top: 70%;
+            width: 100%;
+            height: auto;
+            background-color: #1565c0;
+            display: block;
+        }
+
+        .panel.datagrid.panel-htop.easyui-fluid {
+            width: 80% !important;
+        }
+
+        .panel-header,
+        .datagrid-wrap.panel-body {
+            width: 100% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="/img/banner_mobile_small.png" alt="">
+    </div>
+    <div class="nav-bar">
+        <ul
+            style="display: flex!important;gap: 50px!important;list-style: none!important;width:100%;margin-top: 0px!important;">
+            <li><a style="text-decoration: none;" href="/">Trang chủ</a></li>
+            <li><a style="text-decoration: none;" href="intro">Giới Thiệu</a></li>
+            <li><a style="text-decoration: none;" href="#">Phản hồi</a></li>
+        </ul>
+    </div>
+    <div id="tb" style="    margin: auto;
+    /* display: inline-block; */
+    width: 80%!important;">
+        Địa điểm:
+        <select id="location" class="easyui-combobox" panelHeight="auto" style="width:150px">
+            <option value="songsaigon">Sông Sài Gòn</option>
+            <option value="song tien">Sông Tiền</option>
+
+        </select>
+        <a class="easyui-linkbutton" onclick="Search()" iconCls="icon-search">Search</a>
+    </div>
+    <table class="easyui-datagrid" title="Dữ liệu độ mặn các trạm quan trắc" style="width:78%;height:auto;margin: auto;"
+        data-options="singleSelect:true,collapsible:true,method:'get'">
+        <thead>
+            <tr>
+                <th data-options="field:'diachis1',width:150,align:'center'">Địa chỉ</th>
+                <th data-options="field:'Percentsals1',width:150,align:'center'">Độ mặn</th>
+                <th data-options="field:'flashws1',width:200,align:'center'">Tốc độ dòng chảy</th>
+                <th data-options="field:'times1',width:200,align:'center'">Thời gian cập nhật</th>
+                <th data-options="field:'fullday',width:250,align:'center'">Ngày cập nhật</th>
+                <th data-options="field:'dubaos1',width:114,align:'center'">Dự báo</th>
+            </tr>
+        </thead>
+    </table>
+    <canvas id="myChart"></canvas>
+
+    <div class="footer">
+        <div class="footer-top">
+            <!--    Custom mobile   -->
+            <div class="f-t-element f-t-element-first col-md-4 col-sm-6">
+                <div class="f-t-e-title">LIÊN HỆ</div>
+                <div class="f-t-e-content">
+                    <br>LÊ MINH PHÁT</br>
+                    <br>Email: minhlee17999@gmail.com</br>
+                    <p>TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP TP.&nbsp;HCM<br> Địa chỉ : Số 12 Nguyễn Văn Bảo, Phường&nbsp;4,<br>
+                        Quận&nbsp;Gò Vấp, Thành phố&nbsp;Hồ Chí Minh<br> Điện thoại: <a href="tel:02838940390">0283.8940
+                            390</a><br> Fax: <a href="tel:02839940954">0283.9940 954</a><br> Email:&nbsp;
+                        <a href="mailto:dhcn@iuh.edu.vn">dhcn@iuh.edu.vn</a>
+                    </p>
+
+                </div>
+            </div>
+            <div class="f-t-element f-t-element-first col-md-4 col-sm-6">
+                <p>© Bản quyền 2022 - sv.LÊ MINH PHÁT<br>
+                    <span style="font-size:10px; font-weight:normal"><em>Mọi hành động sử dụng nội dung đăng tải trên
+                            Website đồ án của sinh viên&nbsp;có sự đồng ý bằng văn bản của Sv.LÊ MINH PHÁT.</em></span>
+                </p>
+            </div>
+
+            <script>
+
+
+
+                function Search() {
+                    const location = $('#location').combobox('getValue'); // Lấy giá trị từ select 'Địa điểm'
+                    // Gửi yêu cầu POST đến server
+                    $.ajax({
+                        url: '/search',
+                        method: 'POST',
+                        data: { location },
+                        success: (data) => {
+                            console.log(data); // In kết quả tìm kiếm trong console
+                            $('.easyui-datagrid').datagrid('loadData', data);
+
+                            // Hàm thực hiện khi tìm kiếm thành công
+                            function handleSearchSuccess(data) {
+                                console.log(data); // In kết quả tìm kiếm trong console
+                                $('.easyui-datagrid').datagrid('loadData', data);
+
+                                var times = data.map(function (item) {
+                                    return item.times1;
+                                });
+
+                                // Tạo một mảng các giá trị flashws1 từ dữ liệu
+                                var flashws = data.map(function (item) {
+                                    return parseFloat(item.Percentsals1);
+                                });
+
+                                // Khởi tạo biểu đồ line chart
+                                var ctx = document.getElementById('myChart').getContext('2d');
+                                var myChart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: times, // Sử dụng mảng nhãn thời gian làm trục x
+                                        datasets: [{
+                                            label: 'Độ mặn theo thời gian',
+                                            data: flashws, // Sử dụng mảng giá trị flashws1 làm trục y
+                                            borderColor: 'rgba(255, 99, 132, 1)',
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true // Bắt đầu trục y từ giá trị 0
+                                                }
+                                            }]
+                                        }
+                                    }
+                                });
+
+
+                                // Gọi hàm để lấy dữ liệu mới và cập nhật biểu đồ
+                                // fetchNewData();
+                            }
+
+                            // Thực hiện yêu cầu POST đến server
+                            $.ajax({
+                                url: '/search',
+                                method: 'POST',
+                                data: { location },
+                                success: handleSearchSuccess,
+                                error: (xhr, status, error) => {
+                                    console.error(error); // In lỗi nếu có
+                                }
+                            });
+                        },
+                        error: (xhr, status, error) => {
+                            console.error(error); // In lỗi nếu có
+                        }
+                    });
+                }
+
+            </script>
+</body>
+
+</html>

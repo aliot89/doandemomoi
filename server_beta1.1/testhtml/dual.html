@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="ct">
+        <label><input onchange="chonDT()" type="checkbox" class="thuonghieu" value="Apple">Apple</label>
+        <label><input onchange="chonDT()" type="checkbox" class="thuonghieu" value="OPPO">Oppo</label>
+        <label><input onchange="chonDT()" type="checkbox" class="thuonghieu" value="Samsung">Samsung</label>
+        <label><input onchange="chonDT()" type="checkbox" class="thuonghieu" value="Xiaomi">Xiaomi</label>
+        <label><input onchange="chonDT()" type="checkbox" class="thuonghieu" value="Vivo">Vivo</label>
+    </div>
+    <select class="custom-select" id="test">
+        <option class="active">Choose one...</option>
+        <option>Samsung</option>
+        <option>OPPO</option>
+        <option>Vivo</option>
+    </select>
+    <div id="list1">
+
+
+    </div>
+    <script>
+        var loca2 =[{"_id":"635c10497f3a9df0853c52b3","Percentsal1":"0.2","flashw1":"30","dubao1":"2 ngay","time1":"00:24am","diachi1":"song hau","hour2":"Saturday, 29 Oct","__v":0},
+        {"_id":"635c105a7f3a9df0853c52b7","Percentsal1":"0.3","flashw1":"30","dubao1":"2 ngay","time1":"00:24am","diachi1":"song hau","hour2":"Saturday, 29 Oct","__v":0},
+        {"_id":"63a8a1fadb9d8f1a529779b5","Percentsal1":"3","flashw1":"4","dubao1":"2 ngay","time1":"02:18am","diachi1":"song hau","hour2":"Monday, 26 Dec","__v":0},
+        {"_id":"63a8a210db9d8f1a529779b9","Percentsal1":"1","flashw1":"4","dubao1":"2 ngay","time1":"02:18am","diachi1":"song hau","hour2":"Monday, 26 Dec","__v":0},
+        {"_id":"63a8a26f5d08d0b680b48627","Percentsal1":"3","flashw1":"4","dubao1":"2 ngay","time1":"02:20am","diachi1":"song Tien","hour2":"Monday, 26 Dec","__v":0},
+        {"_id":"63a8bf7aad82a5349367adec","Percentsal1":"3","flashw1":"4","dubao1":"2 ngay","time1":"04:24am","diachi1":"song Tien","hour2":"Monday, 26 Dec","__v":0},
+        {"_id":"63a8c5ff8cf3b25e8a2ec681","Percentsal1":"3","flashw1":"4","dubao1":"2 ngay","time1":"04:51am","diachi1":" Tien Giang","hour2":"Monday, 26 Dec","__v":0},
+        {"_id":"63a8c973880fbc6c4dab8901","Percentsal1":"3","flashw1":"4","dubao1":"2 ngay","time1":"05:06am","diachi1":"Tien Giang","hour2":"Monday, 26 Dec","__v":0}]
+        var arrDT = [
+            {
+                tenDT: 'Xiaomi Redmi 9A 2GB/32GB Xanh dương',
+                gia: 2290000,
+                hinh: 'hinh/xiaomi-9a-xanh-duong.jpg',
+                thuonghieu: 'Xiaomi',
+                manhinh: "4.5"
+            },
+            {
+                tenDT: 'Samsung Galaxy A52 4G 8GB/128GB Xanh',
+                gia: 8290000,
+                hinh: 'hinh/samsung-galaxy-a52-xanh.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "5.2"
+            },
+            {
+                tenDT: 'Samsung Galaxy A32 4G 6GB/128GB Xanh',
+                gia: 5990000,
+                hinh: 'hinh/samsung-galaxy-a32-xanh.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "4.8"
+            },
+            {
+                tenDT: 'Xiaomi Redmi 9C 3GB/64GB Xám',
+                gia: 2990000,
+                hinh: 'hinh/xiaomi-9c-xam.jpg',
+                thuonghieu: 'Xiaomi',
+                manhinh: "4.6"
+            },
+            {
+                tenDT: 'OPPO A55 4GB/64GB Xanh',
+                gia: 4550000,
+                hinh: 'hinh/oppo-a55-xanh.jpg',
+                thuonghieu: 'OPPO',
+                manhinh: "4.9"
+            },
+            {
+                tenDT: 'iPhone 11 64GB Trắng',
+                gia: 11990000,
+                hinh: 'hinh/iphone-11-64gb-trang.jpg',
+                thuonghieu: 'Apple',
+                manhinh: "6.0"
+            },
+            {
+                tenDT: 'iPhone 13 Pro 128GB Vàng Đồng',
+                gia: 27990000,
+                hinh: 'hinh/iphone-13-vang-dong.jpg',
+                thuonghieu: 'Apple',
+                manhinh: "5.5"
+            },
+            {
+                tenDT: 'iPhone 11 64GB Tím',
+                gia: 11990000,
+                hinh: 'hinh/iphone-11-64gb-tim.jpg',
+                thuonghieu: 'Apple',
+                manhinh: "5.8"
+            },
+            {
+                tenDT: 'Vivo Y15s 3GB/32GB Xanh Đen',
+                gia: 3190000,
+                hinh: 'hinh/vivo-y15s-xanh-den.jpg',
+                thuonghieu: '6.2',
+                manhinh: "4.8"
+            },
+            {
+                tenDT: 'Vivo Y72 5G 8GB/128GB Đen',
+                gia: 6890000,
+                hinh: 'hinh/vivo-y72-5g-den.jpg',
+                thuonghieu: 'Vivo',
+                manhinh: "6.5"
+            },
+            {
+                tenDT: 'Vivo V23e 8GB/128GB Đen',
+                gia: 7390000,
+                hinh: 'hinh/vivo-v23e-den.jpg',
+                thuonghieu: 'Vivo',
+                manhinh: "6.4"
+            },
+            {
+                tenDT: 'Samsung Galaxy S21 Ultra 5G 12GB/128GB Bạc',
+                gia: 24990000,
+                hinh: 'hinh/samsung-galaxy-s21-bac.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "6.5"
+            },
+            {
+                tenDT: 'Samsung Galaxy A13 4GB/128GB Đen',
+                gia: 4290000,
+                hinh: 'hinh/samsung-galaxy-a13-den.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "4.9"
+            },
+            {
+                tenDT: 'Samsung S21 FE 5G 8GB/128GB Tím',
+                gia: 14490000,
+                hinh: 'hinh/samsung-s21-5g-tim.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "5.8"
+            },
+            {
+                tenDT: 'Samsung Galaxy S20 FE 8GB/256GB Xanh',
+                gia: 10990000,
+                hinh: 'hinh/samsung-galaxy-s20-xanh.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "5.7"
+            }
+        ]
+        function hienDT(thuonghieuchon_arr = []) {
+            var list1 = document.getElementById("list1");
+            list1.innerHTML = '';
+            for (i = 0; i < arrDT.length; i++) {
+                thuonghieuDT = arrDT[i].thuonghieu;
+                manhinhDT = arrDT[i].manhinh;
+                if (thuonghieuchon_arr.length > 0) {
+                    if (thuonghieuchon_arr.includes(thuonghieuDT) == false) continue;
+                }
+                list1.innerHTML +=
+
+                    ` <div class="dt">
+                <img src="${arrDT[i].hinh}">
+                <h3>${arrDT[i].tenDT}</h3>
+                <h4>${arrDT[i].gia} -${arrDT[i].manhinh} </h4>
+            </div>
+            `
+
+            }
+        }
+        function chonDT() {
+            var arr1 = document.getElementsByClassName("thuonghieu");
+            var thuonghieuchon_arr = [];
+            for (i = 0; i < arr1.lenght; i++) {
+                if (arr1[i].checked == true) console.log(thuonghieuchon_arr.push(arr1[i].value))
+
+            }
+            hienDT(thuonghieuchon_arr)
+
+        }
+        var nono = document.getElementById("test")
+
+        test.onchange = function () {
+            let freelancers = [{ name: "Tuan", skill: "JavaScript" }, { name: "Nguyen", skill: "Python" }, { name: "Hoang", skill: "JavaScript" }];
+            let javascript_freelancers = arrDT.filter(function (freelancer) {
+                //return freelancer.thuonghieu == "Samsung";
+                value = nono.options[nono.selectedIndex].text;
+
+                return freelancer.thuonghieu == value;
+
+            });
+            list1.innerHTML =""
+
+            for (i = 0; i < javascript_freelancers.length; i++) {
+                list1.innerHTML +=
+
+                    ` <div class="dt">
+                <img src="${javascript_freelancers[i].hinh}">
+                <h3>${javascript_freelancers[i].tenDT}</h3>
+                <h4>${javascript_freelancers[i].gia} -${javascript_freelancers[i].manhinh} </h4>
+                </div>
+                `
+            }
+            console.log(javascript_freelancers);
+            console.log(loca2._id)
+        }
+
+//Output = [{ name: "Tuan", skill: "JavaScript" }, { name: "Hoang", skill: "JavaScript" }]
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/public/lib/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/public/lib/themes/icon.css">
+    <script type="text/javascript" src="/public/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/lib/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <title>DO AN BAN TEST</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+
+<body>
+    <div class="header">
+        <img src="/img/banner_mobile_small.png" alt="">
+    </div>
+    <div class="nav-bar">
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="intro">Giới Thiệu</a></li>
+            <li><a href="#">Phản hồi</a></li>
+        </ul>
+    </div>
+
+    <table id="dg" class="easyui-datagrid" title="Fluid DataGrid" style="width:80%;height:auto3"
+        data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'">
+        <thead>
+            <tr>
+                <th data-options="field:'diachi1',resizable:false,align:'center'!important" width="15%">Địa Điểm</th>
+                <th data-options="field:'productid',resizable:false,align:'center'!important" width="15%">Percentsal
+                </th>
+                <th data-options="field:'listprice',align:'right',resizable:false,align:'center'!important" width="15%">
+                    flashw</th>
+                <th data-options="field:'unitcost',align:'right',resizable:false,align:'center'!important" width="15%">
+                    day</th>
+                <th data-options="field:'attr1',resizable:false,align:'center'!important" width="25%">Time</th>
+                <th data-options="field:'status',align:'center',resizable:false,align:'center'!important" width="15%">
+                    Status</th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+    <div class="footer">
+        <div class="footer-top">
+            <!--    Custom mobile   -->
+            <div class="f-t-element f-t-element-first col-md-4 col-sm-6">
+                <div class="f-t-e-title">LIÊN HỆ</div>
+                <div class="f-t-e-content">
+                    <br>LÊ MINH PHÁT</br>
+                    <br>Email: minhlee17999@gmail.com</br>
+                    <p>TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP TP.&nbsp;HCM<br> Địa chỉ : Số 12 Nguyễn Văn Bảo, Phường&nbsp;4,<br>
+                        Quận&nbsp;Gò Vấp, Thành phố&nbsp;Hồ Chí Minh<br> Điện thoại: <a href="tel:02838940390">0283.8940
+                            390</a><br> Fax: <a href="tel:02839940954">0283.9940 954</a><br> Email:&nbsp;
+                        <a href="mailto:dhcn@iuh.edu.vn">dhcn@iuh.edu.vn</a>
+                    </p>
+
+                </div>
+            </div>
+            <div class="f-t-element f-t-element-first col-md-4 col-sm-6">
+                <p>© Bản quyền 2022 - sv.LÊ MINH PHÁT<br>
+                    <span style="font-size:10px; font-weight:normal"><em>Mọi hành động sử dụng nội dung đăng tải trên
+                            Website đồ án của sinh viên&nbsp;có sự đồng ý bằng văn bản của Sv.LÊ MINH PHÁT.</em></span>
+                </p>
+            </div>
+
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+    <script>
+        $('#dg').datagrid({
+            url: '/testpage',
+            columns: [[
+                { field: 'diachi1', title: 'diachi1', width: 100 },
+                { field: 'age', title: 'Age', width: 100 },
+                { field: 'address', title: 'Address', width: 200 }
+            ]],
+
+        });
+        console.log(columns);
+    </script>
+</body>
+
+</html>

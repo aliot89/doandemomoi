@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #list1 {
+            display: grid;
+            grid-template-columns: 33.3% 33.3% 33.3%;
+        }
+
+        #list1>.dt {
+            text-align: center;
+            border: 2px solid darkcyan;
+            margin: 10px;
+        }
+
+        #list1>.dt>img {
+            max-width: 90%;
+            height: 200px;
+            margin-top: 10px;
+        }
+
+        #accordion>.cap {
+            background: lightseagreen;
+            padding: 8px 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+        }
+
+        #accordion>.ct>label {
+            margin: 8px 0 8px 30px;
+            font-size: 18px;
+            display: block;
+            cursor: pointer;
+        }
+
+        #accordion>.ct input {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+        }
+
+        #list1 {
+            display: grid;
+            grid-template-columns: 33.3% 33.3% 33.3%;
+        }
+
+        #list1>.dt {
+            text-align: center;
+            border: 2px solid darkcyan;
+            margin: 10px;
+        }
+
+        #list1>.dt>img {
+            max-width: 90%;
+            height: 200px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="accordion">
+        <div class="cap">Thương hiệu</div>
+        <div class="ct">
+            <label><input type="checkbox" class="thuonghieu" value="Apple">Apple</label>
+            <label><input type="checkbox" class="thuonghieu" value="OPPO">Oppo</label>
+            <label><input type="checkbox" class="thuonghieu" value="Samsung">Samsung</label>
+            <label><input type="checkbox" class="thuonghieu" value="Xiaomi">Xiaomi</label>
+            <label><input type="checkbox" class="thuonghieu" value="Vivo">Vivo</label>
+        </div>
+        <div class="cap">Giá bán</div>
+        <div class="ct">
+            <label><input type="checkbox" class="giaban" value="1">Dưới 5 triệu</label>
+            <label><input type="checkbox" class="giaban" value="2">Từ 5 đến 10 triệu</label>
+            <label><input type="checkbox" class="giaban" value="3">Từ 10 đến 15 triệu</label>
+            <label><input type="checkbox" class="giaban" value="4">Trên 15 triệu</label>
+        </div>
+        <div class="cap">Màn hình</div>
+        <div class="ct">
+            <label><input type="checkbox" class="manhinh" value="1">Dưới 5 inch</label>
+            <label><input type="checkbox" class="manhinh" value="2">Từ 5 inch trở lên</label>
+        </div>
+    </div>
+    <div id="list1">
+
+    </div>
+    <script>
+
+    </script>
+    <script>
+        var arrDT = [
+            {
+                tenDT: 'Xiaomi Redmi 9A 2GB/32GB Xanh dương',
+                gia: 2290000,
+                hinh: 'hinh/xiaomi-9a-xanh-duong.jpg',
+                thuonghieu: 'Xiaomi',
+                manhinh: "4.5"
+            },
+            {
+                tenDT: 'Samsung Galaxy A52 4G 8GB/128GB Xanh',
+                gia: 8290000,
+                hinh: 'hinh/samsung-galaxy-a52-xanh.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "5.2"
+            },
+            {
+                tenDT: 'Samsung Galaxy A32 4G 6GB/128GB Xanh',
+                gia: 5990000,
+                hinh: 'hinh/samsung-galaxy-a32-xanh.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "4.8"
+            },
+            {
+                tenDT: 'Xiaomi Redmi 9C 3GB/64GB Xám',
+                gia: 2990000,
+                hinh: 'hinh/xiaomi-9c-xam.jpg',
+                thuonghieu: 'Xiaomi',
+                manhinh: "4.6"
+            },
+            {
+                tenDT: 'OPPO A55 4GB/64GB Xanh',
+                gia: 4550000,
+                hinh: 'hinh/oppo-a55-xanh.jpg',
+                thuonghieu: 'OPPO',
+                manhinh: "4.9"
+            },
+            {
+                tenDT: 'iPhone 11 64GB Trắng',
+                gia: 11990000,
+                hinh: 'hinh/iphone-11-64gb-trang.jpg',
+                thuonghieu: 'Apple',
+                manhinh: "6.0"
+            },
+            {
+                tenDT: 'iPhone 13 Pro 128GB Vàng Đồng',
+                gia: 27990000,
+                hinh: 'hinh/iphone-13-vang-dong.jpg',
+                thuonghieu: 'Apple',
+                manhinh: "5.5"
+            },
+            {
+                tenDT: 'iPhone 11 64GB Tím',
+                gia: 11990000,
+                hinh: 'hinh/iphone-11-64gb-tim.jpg',
+                thuonghieu: 'Apple',
+                manhinh: "5.8"
+            },
+            {
+                tenDT: 'Vivo Y15s 3GB/32GB Xanh Đen',
+                gia: 3190000,
+                hinh: 'hinh/vivo-y15s-xanh-den.jpg',
+                thuonghieu: '6.2',
+                manhinh: "4.8"
+            },
+            {
+                tenDT: 'Vivo Y72 5G 8GB/128GB Đen',
+                gia: 6890000,
+                hinh: 'hinh/vivo-y72-5g-den.jpg',
+                thuonghieu: 'Vivo',
+                manhinh: "6.5"
+            },
+            {
+                tenDT: 'Vivo V23e 8GB/128GB Đen',
+                gia: 7390000,
+                hinh: 'hinh/vivo-v23e-den.jpg',
+                thuonghieu: 'Vivo',
+                manhinh: "6.4"
+            },
+            {
+                tenDT: 'Samsung Galaxy S21 Ultra 5G 12GB/128GB Bạc',
+                gia: 24990000,
+                hinh: 'hinh/samsung-galaxy-s21-bac.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "6.5"
+            },
+            {
+                tenDT: 'Samsung Galaxy A13 4GB/128GB Đen',
+                gia: 4290000,
+                hinh: 'hinh/samsung-galaxy-a13-den.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "4.9"
+            },
+            {
+                tenDT: 'Samsung S21 FE 5G 8GB/128GB Tím',
+                gia: 14490000,
+                hinh: 'hinh/samsung-s21-5g-tim.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "5.8"
+            },
+            {
+                tenDT: 'Samsung Galaxy S20 FE 8GB/256GB Xanh',
+                gia: 10990000,
+                hinh: 'hinh/samsung-galaxy-s20-xanh.jpg',
+                thuonghieu: 'Samsung',
+                manhinh: "5.7"
+            }
+        ]
+        function hienDT(thuonghieuchon_arr=[]) {
+            var list1 = document.getElementById("list1");
+            list1.innerHTML = '';
+            for (i = 0; i < arrDT.length; i++) {
+                thuonghieuDT = arrDT[i].manhinh;
+                manhinhDT = arrDT[i].gia;
+                if(thuonghieuchon_arr.length>0){
+                    if(thuonghieuchon_arr.includes(thuonghieuDT)==false) continue;
+                }
+                list1.innerHTML +=
+                
+                    ` <div class="dt">
+                <img src="${arrDT[i].hinh}">
+                <h3>${arrDT[i].tenDT}</h3>
+                <h4>${arrDT[i].gia} -${arrDT[i].manhinh} </h4>
+            </div>
+            `
+
+            }
+        }
+        function chonDT(){
+            var arr =document.getElementsByClassName("thuonghieu");
+            var thuonghieuchon_arr=[];
+            for(i=0;i<arr1.lenght;i++){
+                if(arr[i].checked == true) thuonghieuchon_arr.push(arr1[i].value)
+            }
+hienDT(thuonghieuchon_arr)
+            }
+        
+        hienDT()
+    </script>
+</body>
+
+</html>

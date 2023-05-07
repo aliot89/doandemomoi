@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function arePointsNear(checkPoint, centerPoint, km) {
+            var ky = 40000 / 360; // chiều dài dung tuong duong 111 km(vĩ độ)
+            var kx = Math.cos(Math.PI * centerPoint.lat / 180.0) * ky;
+            var dx = Math.abs(centerPoint.lng - checkPoint.lng) * kx;
+            var dy = Math.abs(centerPoint.lat - checkPoint.lat) * ky;
+            return Math.sqrt(dx * dx + dy * dy) <= km;
+        }
+        //lat:x long:y
+        var vasteras = {
+
+            lat: 10.834,
+            lng: 106.644
+        };
+        var stockholm = {
+            lat: 10.336,
+            lng: 106.343
+        };
+
+        var n = arePointsNear(vasteras, stockholm, 50);
+
+        console.log(n);
+    </script>
+</body>
+
+</html>

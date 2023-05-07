@@ -1,0 +1,8 @@
+[  { "input": { "mucnuoc": 0, "luongmua": 0 },
+ "output": { "mucnuoc_sau_mua": 0 } }, 
+  { "input": { "mucnuoc": 0, "luongmua": 10 }, 
+  "output": { "mucnuoc_sau_mua": 1 } },  
+  { "input": { "mucnuoc": 10, "luongmua": 0 },
+   "output": { "mucnuoc_sau_mua": 1 } }, 
+    { "input": { "mucnuoc": 10, "luongmua": 10 },
+     "output": { "mucnuoc_sau_mua": 1 } }]
