@@ -19,6 +19,7 @@
     "expo-notifications": "^0.18.1",
     "expo-server-sdk": "^3.7.0",
     "express": "^4.15.3",
+    "firebase-admin": "^11.8.0",
     "geolib": "^3.3.3",
     "gl": "^6.0.2",
     "gpu.js": "^2.16.0",
@@ -26,6 +27,7 @@
     "moment": "^2.29.4",
     "mongodb": "^4.10.0",
     "mongoose": "^6.10.4",
+    "node-fetch": "^2.6.1",
     "socket.io": "^1.7.3"
   }
 }
