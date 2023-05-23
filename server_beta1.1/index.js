@@ -1,4 +1,4 @@
-const PORT = 8000;
+const PORT = 80;
 const http = require('http')
 const express = require('express');
 const app = express();
@@ -11,11 +11,7 @@ const expo = new Expo();
 
 
 const mongoose = require('mongoose')
-app.use(cors({
-    origin: 'http://13.212.210.52:8000'
-}));
 
-const Schema = mongoose.Schema;
 app.listen(PORT);
 var path = require('path')
 
@@ -26,15 +22,15 @@ const connectionParams = {
   useFindAndModify: false,
   createIndexes: true // Add this option
 };
-const connectDB = async() => {
+const connectDB = async () => {
   try {
-      await mongoose.connect(
-          URL, { useNewUrlParser: true, useUnifiedTopology: true }
-      )
-      console.log('Connected to mongoDB')
+    await mongoose.connect(
+      URL, { useNewUrlParser: true, useUnifiedTopology: true }
+    )
+    console.log('Connected to mongoDB')
   } catch (error) {
-      console.log(error)
-      process.exit(1)
+    console.log(error)
+    process.exit(1)
   }
 }
 

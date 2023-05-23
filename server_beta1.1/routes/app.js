@@ -128,167 +128,7 @@ route.get('/appdata', function (req, res) {
 const dataQueue = [];
 // Biến boolean để đánh dấu xem có đang xử lý dữ liệu hay không
 let isProcessing = false;
-//train/1/2/3/10.762622/106.660172
-// route.get('/train/:temp/:hmdt/:point1/:lat/:lon', (req, res) => {
-//   const mua = Number(req.params.temp);
-//   const chay = Number(req.params.hmdt);
-//   const doman = Number(req.params.point1);
-//   const sensorLa = Number(req.params.lat);
-//   const sensorLo = Number(req.params.lon);
 
-//   //Cấp độ mặn
-//   let level1 = 0.1;
-//   let level2 = 0.2;
-//   let level3 = 0.4;
-//   let level4 = 0.6;
-//   // Thêm dữ liệu vào mảng chờ xử lý
-//   dataQueue.push({ mua, chay, doman, sensorLa, sensorLo });
-//   // Nếu đang không xử lý dữ liệu nào, bắt đầu xử lý dữ liệu đầu tiên trong mảng chờ xử lý
-//   console.log(dataQueue)
-//   console.log(dataQueue.length)
-//   console.log(isProcessing)
-//   if (!isProcessing) {
-//     isProcessing = false;
-//     // Lấy dữ liệu đầu tiên trong mảng chờ xử lý
-//     const { mua, chay, doman, sensorLa, sensorLo } = dataQueue[0];
-
-//     // Xóa dữ liệu đầu tiên khỏi mảng chờ xử lý
-//     dataQueue.shift();
-
-//     // Tiếp tục xử lý dữ liệu tiếp theo trong mảng chờ xử lý (nếu có)
-//     if (dataQueue.length > 0) {
-//       processNextData();
-//     }
-
-//     function deg2rad(deg) {
-//       return deg * (Math.PI / 180)
-//     }
-//     const radius = 20; // bán kính cho trước
-
-//     function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-//       const R = 6371; // bán kính trái đất (km)
-//       const dLat = deg2rad(lat2 - lat1);
-//       const dLon = deg2rad(lon2 - lon1);
-//       const a =
-//         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-//         Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-//         Math.sin(dLon / 2) * Math.sin(dLon / 2);
-//       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//       const d = R * c; // khoảng cách giữa 2 điểm trên trái đất (km)
-//       return d;
-//     }
-
-//     info0.find({}, (err, info0) => {
-//       if (err) {
-//         console.error(err);
-//         return;
-//       }
-//       const latitudes = info0.map(item => item.latitude);
-//       // console.log(latitudes);
-
-
-//       info0.forEach(info0 => {
-//         const { latitude, longitude } = info0;
-//         const distance = getDistanceFromLatLonInKm(sensorLa, sensorLo, latitude, longitude);
-//         // console.log(distance)
-
-//         if (distance <= radius) {
-//           // Thiết bị nằm trong bán kính của sensor, gửi thông báo đến thiết bị đó
-//           const tf = require('@tensorflow/tfjs');
-//           const data = require('./data.json');
-
-//           // Tạo mảng dữ liệu đầu vào và đầu ra
-//           const inputData = data.map(item => item.input);
-//           const outputData = data.map(item => item.output);
-
-//           // Tạo mô hình
-//           const model = tf.sequential();
-//           model.add(tf.layers.dense({ inputShape: [3], units: 4, activation: 'sigmoid' }));
-//           model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
-
-//           // Biên dịch mô hình
-//           model.compile({ loss: 'binaryCrossentropy', optimizer: 'adam' });
-
-//           // Huấn luyện mô hình
-//           model.fit(tf.tensor(inputData), tf.tensor(outputData), { epochs: 50 })
-//             .then(() => {
-//               // Dự báo độ mặn của nước mới
-//               const newData = [mua, chay, doman];
-//               const prediction = model.predict(tf.tensor([newData]));
-//               const predictionValue = prediction.dataSync()[0];
-//               if (predictionValue > 0.5) {
-//                 // console.log('Mặn');
-//                 let doman1 = '';
-//                 if (level1 <= doman && doman < level2) {
-//                   doman1 = 'cấp độ 1'
-//                 }
-//                 if (level2 <= doman && doman < level3) {
-//                   doman1 = 'cấp độ 2'
-//                 }
-//                 if (level3 <= doman && doman < level4) {
-//                   doman1 = 'cấp độ 3'
-//                 }
-//                 if (doman > level4) {
-//                   doman1 = 'Độ mặn vượt ngưỡng cách báo cao nhất'
-//                 }
-//                 async function getTokenAndSendMessage() {
-//                   // Thông tin của thiết bị nhận thông báo
-//                   const somePushTokens = [info0.tokenData];
-
-//                   // Tạo các hàm async để lấy thông tin của thiết bị
-//                   const chunks = expo.chunkPushNotifications(somePushTokens.map(token => ({
-//                     to: token,
-//                     sound: 'default',
-//                     body: 'Cảnh báo độ mặn tăng cao' + ' ' + 'độ mặn' + ' ' + doman1,
-//                     data: { withSome: 'data' },
-//                   })));
-
-//                   const tickets = [];
-//                   for (const chunk of chunks) {
-//                     try {
-//                       const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-//                       tickets.push(...ticketChunk);
-//                     } catch (error) {
-//                       console.error(error);
-//                     }
-//                   }
-
-//                   console.log(tickets);
-//                 }
-
-//                 getTokenAndSendMessage();
-//                 const chunks = expo.chunkPushNotifications(messages);
-//                 (async () => {
-//                   for (const chunk of chunks) {
-//                     try {
-//                       const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
-//                       console.log(ticketChunk);
-//                     } catch (error) {
-//                       console.error(error);
-//                     }
-//                   }
-//                 })();
-//               } else {
-//                 console.log('Không mặn');
-//               }
-//             });
-
-//         }
-//         if (err) {
-//           console.error(err);
-//           return;
-//         }
-//         console.log(info0)
-
-//       })
-
-
-
-//     })
-
-//   }
-//   res.send('ok')
-// })
 route.post('/device-data', (req, res) => {
   console.log(req.body);
   const { token, latitude, longitude } = req.body;
@@ -362,18 +202,21 @@ route.post('/salary-sheet', function (req, res) {
 //sensor1/0.1/15/song tien/106.343/10.336
 //sensor1/0.2/15/song hau/ 106.216/9.516
 route.get('/sensor1/:Per/:spe/:address/:lon/:la', function (req, res) {
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+  const moment = require('moment-timezone');
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const time = new Date();
-  const month = time.getMonth();
-  const date = time.getDate();
-  const day = time.getDay();
-  const hour = time.getHours();
-  const year = time.getFullYear();
-  const hoursIn12HrFormat = hour >= 13 ? hour % 12 : hour
-  const minutes = time.getMinutes();
-  const ampm = hour >= 12 ? 'pm' : 'am'
+  const gmt7 = moment().tz("Asia/Ho_Chi_Minh");
+  const month = gmt7.month();
+  const date = gmt7.date();
+  const day = gmt7.day();
+  const hour = gmt7.hour();
+  const year = gmt7.year();
+  const hoursIn12HrFormat = hour >= 13 ? hour % 12 : hour;
+  const minutes = gmt7.minute();
+  const ampm = hour >= 12 ? 'pm' : 'am';
   const day1 = days[day] + ', ' + date + ' ' + months[month];
+  const day2 = date + "-" + month + "-" + year;
   const day3 = date + "-" + (month + 1) + "-" + year;
   const LATITUDE = '10.762622';
   const LONGITUDE = '106.660172';
@@ -395,11 +238,6 @@ route.get('/sensor1/:Per/:spe/:address/:lon/:la', function (req, res) {
   var lon = req.params.lon;
   var la = req.params.la;
 
-  // const mua = Number(req.params.temp);
-  // const chay = Number(req.params.hmdt);
-  // const doman = Number(req.params.point1);
-  // const sensorLa = Number(req.params.lat);
-  // const sensorLo = Number(req.params.lon);
   let mua = 200;
   //Cấp độ mặn
   let level1 = 0.1;
@@ -449,17 +287,20 @@ route.get('/sensor1/:Per/:spe/:address/:lon/:la', function (req, res) {
         return;
       }
       const latitudes = info0.map(item => item.latitude);
-      // console.log(latitudes);
-      const { latitude, longitude } = info0;
-      const distance2 = getDistanceFromLatLonInKm(la, lon, latitude, longitude);
+      const longitude = info0.map(item => item.longitude);
+      console.log(latitudes);
+      // const { latitude, longitude } = info0;
+      const distance2 = getDistanceFromLatLonInKm(la, lon, latitudes[0], longitude[0]);
+      console.log(distance2)
       var dubao = (distance2 / s) / 24;
-
+      const dubao1 = dubao.toFixed(2) + ' ' + 'ngay';
+      console.log(dubao1)
       test1.create({
         Percentsals1: p,
         flashws1: s,
         times1: (hoursIn12HrFormat < 10 ? '0' + hoursIn12HrFormat : hoursIn12HrFormat) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ampm,
         diachis1: ad,
-        dubaos1: dubao + ' ' + 'ngay',
+        dubaos1: dubao1,
         longitude: lon,
         latidude: la,
         hours1: days[day] + ', ' + date + ' ' + months[month],
@@ -569,69 +410,6 @@ route.get('/sensor1/:Per/:spe/:address/:lon/:la', function (req, res) {
   res.send('ok')
 })
 
-var interval = setInterval(function () {
 
-  route.get('/sensor/:temp/:hmdt/:point1/:point2/', function (req, res) {
-    // /sensor/:1/:2/:3/:4/
-    var t = req.params.temp;
-
-    var h = req.params.hmdt;
-
-    var a1 = req.params.point1;
-
-    var b1 = req.params.point2;
-    //res.render(__dirname + "/views/index.ejs", {t:t});
-    console.log(t)
-    console.log(h)
-    console.log(a1)
-    console.log(b1)
-    //res.send('hi'+t+h)
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var times = new Date();
-    const time = new Date();
-    const year = time.getFullYear();
-
-    const month = time.getMonth();
-    const date = time.getDate();
-    const day = time.getDay();
-    const hour = time.getHours();
-    const hoursIn12HrFormat = hour >= 13 ? hour % 12 : hour
-    const minutes = time.getMinutes();
-    const ampm = hour >= 12 ? 'pm' : 'am'
-
-    // console.log((hoursIn12HrFormat < 10 ? '0' + hoursIn12HrFormat : hoursIn12HrFormat) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ampm)
-
-    //console.log(days[day] + ', ' + date + ' ' + months[month])
-    const day2 = date + "-" + month + "-" + year;
-
-    console.log(day)
-    console.log(month)
-
-
-    loca0.create({
-      Percentsals: t,
-      flashws: h,
-      dubaos: "2 ngay",
-      times: (hoursIn12HrFormat < 10 ? '0' + hoursIn12HrFormat : hoursIn12HrFormat) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ampm,
-      diachis: "Phú Phong",
-      hours: days[day] + ', ' + date + ' ' + months[month],
-      test: day2
-
-    });
-
-    loca2.create({
-      Percentsal1: a1,
-      flashw1: b1,
-      dubao1: "2 ngay",
-      time1: (hoursIn12HrFormat < 10 ? '0' + hoursIn12HrFormat : hoursIn12HrFormat) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ampm,
-      diachi1: "Tien Giang",
-      hour2: days[day] + ', ' + date + ' ' + months[month]
-    })
-
-
-
-  })
-}, 1000)
 
 module.exports = route
