@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const Expo = require('expo-server-sdk').Expo;
 const expo = new Expo();
 const moment = require('moment');
-
+const tf = require('@tensorflow/tfjs');
 const loca0 = require('../models/dbsensor')
 const loca2 = require('../models/loca2');
 const test1 = require('../models/test1');
@@ -394,36 +394,43 @@ route.get('/sensor1/:Per/:spe/:address/:lon/:la', function (req, res) {
       const distance2 = getDistanceFromLatLonInKm(la, lon, latitudes[0], longitude[0]);
       console.log(distance2)
 
-      const brain = require('brain.js');
-
-      // Đọc dữ liệu từ tệp JSON
+      // Load training data from JSON file
       const trainingData = JSON.parse(fs.readFileSync('trainingData.json', 'utf8'));
-      // const trainingData = JSON.parse(rawData);
-      const data = trainingData.map(item => ({
-        input: [new Date(item.input[0]).getTime()], // chuyển đổi ngày thành timestamp để sử dụng trong brain.js
-        output: [item.output[0]]
-      }));
-      // Xây dựng mô hình Neural Network
-      const net = new brain.NeuralNetwork({
-        hiddenLayers: [3, 2], // Số lượng nơ-ron trong các lớp ẩn
-        activation: 'sigmoid', // Hàm kích hoạt của các nơ-ron
+
+      // Convert training data to time series format
+      const timeSeriesData = trainingData.map(item => {
+        return {
+          time: new Date(item.input[0]).getTime(),
+          value: parseFloat(item.output[0])
+        };
       });
 
-      // Huấn luyện mô hình Neural Network
-      net.train(data, {
-        errorThresh: 0.005
-      });
+      // Prepare training data for LSTM model
+      const inputTensor = tf.tensor2d(timeSeriesData.slice(0, -1).map(item => [item.value]));
+      const outputTensor = tf.tensor2d(timeSeriesData.slice(1).map(item => [item.value]));
 
-      // Dự đoán độ mặn của các ngày tiếp theo
-      const nextDays = new Date();
-      console.log(nextDays)
-      const input = [new Date(nextDays.setDate(nextDays.getDate() + 1)).getTime()];
-      const output = net.run(input);
+      // Define LSTM model
+      const model = tf.sequential();
+      model.add(tf.layers.lstm({ units: 32, inputShape: [1, 1] }));
+      model.add(tf.layers.dense({ units: 1 }));
+
+      // Compile LSTM model
+      model.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
+
+      // Train LSTM model
+      model.fit(inputTensor.reshape([-1, 1, 1]), outputTensor, { epochs: 2000 });
+
+      // Dự báo độ mặn của ngày hôm sau dựa trên dữ liệu độ mặn của ngày hôm trước
+      const lastDaySaltiness = timeSeriesData[timeSeriesData.length - 1].value;
+      const nextDaySaltiness = model.predict(tf.tensor3d([[[lastDaySaltiness]]])).dataSync()[0];
+      const du = (parseFloat(p) + parseFloat(nextDaySaltiness)).toFixed(3)
+      console.log(du)
+      console.log(`Predicted saltiness of the next day: ${nextDaySaltiness}`);
       test1.create({
         Percentsals1: p,
         times1: (hoursIn12HrFormat < 10 ? '0' + hoursIn12HrFormat : hoursIn12HrFormat) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ampm,
         diachis1: ad,
-        dubaos1: 'ngày mai  độ mặn' + ' ' + parseFloat(output).toFixed(2),
+        dubaos1: 'ngày mai  độ mặn tăng' + ' ' + (du),
         longitude: lon,
         latidude: la,
         hours1: days[day] + ', ' + date + ' ' + months[month],
