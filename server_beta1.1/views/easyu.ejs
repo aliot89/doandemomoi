@@ -128,6 +128,9 @@
             margin-right: auto;
         }
 
+        .calendar table {
+            width: auto !important;
+        }
 
         .container {
             float: left;
@@ -172,14 +175,16 @@
         </ul>
     </div>
     <div id="tb" style="    margin: auto;
-    /* display: inline-block; */
-    width: 80%!important;">
+                    /* display: inline-block; */
+                    width: 80%!important;">
         Địa điểm:
         <select id="location" class="easyui-combobox" panelHeight="auto" style="width:150px">
             <option value="songsaigon">Sông Sài Gòn</option>
             <option value="song tien">Sông Tiền</option>
 
         </select>
+        Ngày:
+        <input class="easyui-datebox" id="date" labelPosition="top" style="width:150px;">
         <a class="easyui-linkbutton" onclick="Search()" iconCls="icon-search">Search</a>
     </div>
     <table class="easyui-datagrid" title="Dữ liệu độ mặn các trạm quan trắc" style="width:78%;height:auto;margin: auto;"
@@ -188,10 +193,10 @@
             <tr>
                 <th data-options="field:'diachis1',width:150,align:'center'">Địa chỉ</th>
                 <th data-options="field:'Percentsals1',width:150,align:'center'">Độ mặn</th>
-                <th data-options="field:'flashws1',width:200,align:'center'">Tốc độ dòng chảy</th>
+                <!-- <th data-options="field:'flashws1',width:200,align:'center'">Tốc độ dòng chảy</th> -->
                 <th data-options="field:'times1',width:200,align:'center'">Thời gian cập nhật</th>
                 <th data-options="field:'fullday',width:250,align:'center'">Ngày cập nhật</th>
-                <th data-options="field:'dubaos1',width:114,align:'center'">Dự báo</th>
+                <th data-options="field:'dubaos1',width:300,align:'center'">Dự báo</th>
             </tr>
         </thead>
     </table>
@@ -226,24 +231,31 @@
 
                 function Search() {
                     const location = $('#location').combobox('getValue'); // Lấy giá trị từ select 'Địa điểm'
-                    // Gửi yêu cầu POST đến server
-                    $.ajax({
-                        url: '/search',
-                        method: 'POST',
-                        data: { location },
-                        success: (data) => {
-                            console.log(data); // In kết quả tìm kiếm trong console
-                            $('.easyui-datagrid').datagrid('loadData', data);
+                    const date = $('#date').datebox('getValue')
+                    const dateObject = new Date(date);
+                    const y = dateObject.getFullYear();
+                    const m = dateObject.getMonth() + 1;
+                    const d = dateObject.getDate();
+                    const date1 = d + '-' + m + '-' + y;
+                    console.log(date1)
+                    if (date != '' && location != '') {
+                        $.ajax({
+                            url: '/search', // Gửi yêu cầu POST đến server
+                            method: 'POST',
+                            data: { location, date1 },
+                            success: (data) => {
+                                // console.log(data); // In kết quả tìm kiếm trong console
+                                $('.easyui-datagrid').datagrid('loadData', data);
 
-                            // Hàm thực hiện khi tìm kiếm thành công
-                            function handleSearchSuccess(data) {
+                                // Hàm thực hiện khi tìm kiếm thành công
+
                                 console.log(data); // In kết quả tìm kiếm trong console
                                 $('.easyui-datagrid').datagrid('loadData', data);
 
                                 var times = data.map(function (item) {
                                     return item.times1;
                                 });
-
+                                console.log(times)
                                 // Tạo một mảng các giá trị flashws1 từ dữ liệu
                                 var flashws = data.map(function (item) {
                                     return parseFloat(item.Percentsals1);
@@ -276,23 +288,29 @@
 
                                 // Gọi hàm để lấy dữ liệu mới và cập nhật biểu đồ
                                 // fetchNewData();
-                            }
 
-                            // Thực hiện yêu cầu POST đến server
-                            $.ajax({
-                                url: '/search',
-                                method: 'POST',
-                                data: { location },
-                                success: handleSearchSuccess,
-                                error: (xhr, status, error) => {
-                                    console.error(error); // In lỗi nếu có
-                                }
-                            });
-                        },
-                        error: (xhr, status, error) => {
-                            console.error(error); // In lỗi nếu có
-                        }
-                    });
+
+                                // // Thực hiện yêu cầu POST đến server
+                                // $.ajax({
+                                //     url: '/search',
+                                //     method: 'POST',
+                                //     data: { location },
+                                //     success: handleSearchSuccess,
+                                //     error: (xhr, status, error) => {
+                                //         console.error(error); // In lỗi nếu có
+                                //     }
+                                // });
+                            },
+                            error: (xhr, status, error) => {
+                                console.error(error); // In lỗi nếu có
+                            }
+                        });
+                    } else {
+                        $.messager.show({
+                            title: 'Error',
+                            msg: 'Hãy nhập đủ thông tin cần thiết!!!'
+                        });
+                    }
                 }
 
             </script>
